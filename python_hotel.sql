@@ -7,7 +7,7 @@ CREATE TABLE "owners"
 CREATE TABLE "pets"
 (
     "id" SERIAL PRIMARY KEY NOT NULL,
-    "owner_id" INT REFERENCES "owners" NOT NULL,
+    "owner_id" INT REFERENCES "owners" ON DELETE CASCADE NOT NULL,
     "pet_name" VARCHAR (50) NOT NULL,
     "breed" VARCHAR (50) NOT NULL,
     "color" VARCHAR (50) NOT NULL,

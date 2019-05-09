@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
+
 mainConnection = psycopg2.connect(user="walterbenson",
                                        host="localhost",
                                        port="5432",
@@ -15,11 +16,13 @@ def getPet():
     try:
         connection = mainConnection
         cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+
         sql_select_query = """ SELECT * FROM "pets" """
         cursor.execute(sql_select_query)
         record = cursor.fetchall()
         print(record)
         return jsonify(record)
+
     except (Exception, psycopg2.Error) as error :
         if(connection):
             print("Failed to GET from db", error)
@@ -30,7 +33,9 @@ def getPet():
             # connection.close()
             print("PostgreSQL cursor is closed")
 
-@app.route('/pets/add', methods=['POST'])
+
+
+@app.route("/pets/add", methods=["POST"])
 def postPet():
    print(request.json)
    try:
@@ -78,46 +83,74 @@ def putPet(pet_id):
 
 
 # ---- OWNER ROUTES -----
-@app.route('/owners')
+@app.route("/owners")
 def getOwner():
-   try:
-       connection = mainConnection
-       cursor = connection.cursor()
-       sql_select_query = """ SELECT * FROM "owners" """
-       cursor.execute(sql_select_query)
-       record = cursor.fetchall()
-       print(record)
-       return jsonify(record)
-   except (Exception, psycopg2.Error) as error:
-       if(connection):
-           print("Failed to GET from db", error)
-   finally:
-       # closing database connection.
-       if(connection):
-           cursor.close()
-           connection.close()
-           print("PostgreSQL connection is closed")
+    try:
+        connection = mainConnection
+        cursor = connection.cursor()
+        sql_select_query = """ SELECT * FROM "owners" """
+        cursor.execute(sql_select_query)
+        record = cursor.fetchall()
+        print(record)
+        return jsonify(record)
+    except (Exception, psycopg2.Error) as error:
+        if connection:
+            print("Failed to GET from db", error)
+            return "failed"
+    finally:
+        # closing database connection.
+        if connection:
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
+            return "success"
 
-@app.route('/owners/add', methods=['POST'])
+
+@app.route("/owners/add", methods=["POST"])
 def addOwner():
-   print(request.json)
+    print(request.json)
 
-   try:
-       connection = mainConnection
-       cursor = connection.cursor()
-       postgres_insert_query = """ INSERT INTO "owners" ("first_name") VALUES (%s) """
-       record_to_insert = (request.json['first_name'])
-       cursor.execute(postgres_insert_query, [record_to_insert])
-       connection.commit()
-       return 'HTTP_201_Created'
-   except (Exception, psycopg2.Error) as error :
-       if(connection):
-          print("Failed to POST to db", error)
-          return 'failed'
-   finally:
-       #closing database connection.
-       if(connection):
-          cursor.close()
-          connection.close()
-          print("PostgreSQL connection is closed")
-          return 'finally'
+    try:
+        connection = mainConnection
+        cursor = connection.cursor()
+        postgres_insert_query = """ INSERT INTO "owners" ("first_name") VALUES (%s) """
+        record_to_insert = request.json["first_name"]
+        cursor.execute(postgres_insert_query, [record_to_insert])
+        connection.commit()
+        return "HTTP_201_Created"
+    except (Exception, psycopg2.Error) as error:
+        if connection:
+            print("Failed to POST to db", error)
+            return "failed"
+    finally:
+        # closing database connection.
+        if connection:
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
+            return "finally"
+
+
+@app.route("/owners/delete/<int:ownerId>", methods=["DELETE"])
+def deleteData(ownerId):
+    try:
+        connection = mainConnection
+        cursor = connection.cursor()
+        print("arguments: ", ownerId)
+        # Update single record now
+        sql_delete_query = """ Delete from "owners" where id = %s """
+        cursor.execute(sql_delete_query, [ownerId])
+        connection.commit()
+        count = cursor.rowcount
+        print(count, "Record deleted successfully ")
+        return "HTTP_201_Deleted"
+    except (Exception, psycopg2.Error) as error:
+        print("Error in Delete operation", error)
+        return "failed"
+    finally:
+        # closing database connection.
+        if connection:
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
+            return "Connection Closed"
