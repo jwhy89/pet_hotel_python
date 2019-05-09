@@ -64,12 +64,12 @@ def postPet():
 @app.route('/pets/update/status/<int:pet_id>', methods=['PUT'])
 def putPet(pet_id):
     try:
-        print(pet_id)
+        print(pet_id, request.json['date'])
         connection = mainConnection
         cursor = connection.cursor()
-        postgres_insert_query=""" UPDATE "pets" SET "status"=null WHERE "id"=%s """
-        record_to_insert = pet_id
-        cursor.execute(postgres_insert_query, [record_to_insert])
+        postgres_insert_query=""" UPDATE "pets" SET "status"=%s WHERE "id"=%s """
+        record_to_insert = (request.json['date'],pet_id)
+        cursor.execute(postgres_insert_query, record_to_insert)
         connection.commit()
         return 'recieved PUT'
     except (Exception, psycopg2.Error) as error :
