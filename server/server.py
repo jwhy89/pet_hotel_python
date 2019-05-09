@@ -30,7 +30,6 @@ def getPet():
 @app.route('/pets/add', methods=['POST'])
 def postPet():
    print(request.json)
-
    try:
        connection = mainConnection
        cursor = connection.cursor()
