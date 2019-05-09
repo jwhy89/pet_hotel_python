@@ -114,7 +114,7 @@ def getOwners():
         connection = mainConnection
         cursor = connection.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
         sql_select_query = """ SELECT "owners"."id", "owners"."first_name", count("pets"."owner_id") FROM "owners"
-        JOIN "pets" ON "pets"."owner_id" = "owners"."id" GROUP BY "owners"."id"; """
+        LEFT JOIN "pets" ON "pets"."owner_id" = "owners"."id" GROUP BY "owners"."id"; """
         cursor.execute(sql_select_query)
         record = cursor.fetchall()
         print(record)
