@@ -1,5 +1,6 @@
 import psycopg2
-import psycopg2.extras 
+import psycopg2.extras
+
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -83,11 +84,11 @@ def putPet(pet_id):
 
 
 # ---- OWNER ROUTES -----
-@app.route("/owners")
-def getOwner():
+@app.route("/owners", methods=["GET"])
+def getOwners():
     try:
         connection = mainConnection
-        cursor = connection.cursor()
+        cursor = connection.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
         sql_select_query = """ SELECT * FROM "owners" """
         cursor.execute(sql_select_query)
         record = cursor.fetchall()
@@ -96,14 +97,12 @@ def getOwner():
     except (Exception, psycopg2.Error) as error:
         if connection:
             print("Failed to GET from db", error)
-            return "failed"
     finally:
         # closing database connection.
         if connection:
             cursor.close()
-            connection.close()
+            # connection.close()
             print("PostgreSQL connection is closed")
-            return "success"
 
 
 @app.route("/owners/add", methods=["POST"])
