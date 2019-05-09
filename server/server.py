@@ -18,7 +18,8 @@ def getPet():
         connection = mainConnection
         cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
-        sql_select_query = """ SELECT * FROM "pets" """
+        sql_select_query = """ SELECT "owners"."id" AS "owner_id", "owners"."first_name", "pets"."id" as "pet_id", "pets"."breed", "pets"."color", "pets"."pet_name", "pets"."status"
+        FROM "owners" JOIN "pets" ON "owners"."id" = "pets"."owner_id"; """
         cursor.execute(sql_select_query)
         record = cursor.fetchall()
         print(record)
@@ -27,6 +28,7 @@ def getPet():
     except (Exception, psycopg2.Error) as error :
         if(connection):
             print("Failed to GET from db", error)
+
     finally:
         #closing database connection.
         if(connection):
