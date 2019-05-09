@@ -1,4 +1,5 @@
 import psycopg2
+import psycopg2.extras 
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -7,25 +8,27 @@ mainConnection = psycopg2.connect(user="walterbenson",
                                        host="localhost",
                                        port="5432",
                                        database="python_hotel")
+
 @app.route('/pets', methods=['GET'])
 def getPet():
-   try:
-       connection = mainConnection
-       cursor = connection.cursor()
-       sql_select_query = """ SELECT * FROM "pets" """
-       cursor.execute(sql_select_query)
-       record = cursor.fetchall()
-       print(record)
-       return jsonify(record)
-   except (Exception, psycopg2.Error) as error :
-       if(connection):
-          print("Failed to GET from db", error)
-   finally:
-       #closing database connection.
-       if(connection):
-          cursor.close()
-          connection.close()
-          print("PostgreSQL connection is closed")
+
+    try:
+        connection = mainConnection
+        cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        sql_select_query = """ SELECT * FROM "pets" """
+        cursor.execute(sql_select_query)
+        record = cursor.fetchall()
+        print(record)
+        return jsonify(record)
+    except (Exception, psycopg2.Error) as error :
+        if(connection):
+            print("Failed to GET from db", error)
+    finally:
+        #closing database connection.
+        if(connection):
+            cursor.close()
+            # connection.close()
+            print("PostgreSQL cursor is closed")
 
 @app.route('/pets/add', methods=['POST'])
 def postPet():
@@ -46,9 +49,33 @@ def postPet():
        #closing database connection.
        if(connection):
           cursor.close()
-          connection.close()
-          print("PostgreSQL connection is closed")
+        #   connection.close()
+          print("PostgreSQL cursor is closed")
           return 'finally'
+
+@app.route('/pets/update/status/<int:pet_id>', methods=['PUT'])
+def putPet(pet_id):
+    try:
+        print(pet_id)
+        connection = mainConnection
+        cursor = connection.cursor()
+        postgres_insert_query=""" UPDATE "pets" SET "status"=null WHERE "id"=%s """
+        record_to_insert = pet_id
+        cursor.execute(postgres_insert_query, [record_to_insert])
+        connection.commit()
+        return 'recieved PUT'
+    except (Exception, psycopg2.Error) as error :
+        if(connection):
+            print("Failed to PUT to db", error)
+            return 'failed'
+    finally:
+        #closing database connection.
+        if(connection):
+            cursor.close()
+            # connection.close()
+            print("PostgreSQL cursor is closed")
+            return 'finally'
+
 
 # ---- OWNER ROUTES -----
 @app.route('/owners')
