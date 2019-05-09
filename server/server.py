@@ -1,31 +1,41 @@
+
+# psycopg2: handles queries between Flask server and postgresql
 import psycopg2
+# add on for psycopg2 to format postgres response as dictionary
 import psycopg2.extras
-
+# Flask is our run-time for server
 from flask import Flask, request, jsonify
-
+# runs flask on Python3
 app = Flask(__name__)
 
-
+# configures connection to database
 mainConnection = psycopg2.connect(user="walterbenson",
                                        host="localhost",
                                        port="5432",
                                        database="python_hotel")
 
+# GETS all pets
 @app.route('/pets', methods=['GET'])
 def getPet():
-
     try:
         connection = mainConnection
-        cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
+        # cursor: allows Python code to execute postgresql commands in database session created by connection.cursor
+        # cursor is configured to provide rows stored as dictionary
+        cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         sql_select_query = """ SELECT "owners"."id" AS "owner_id", "owners"."first_name", "pets"."id" as "pet_id", "pets"."breed", "pets"."color", "pets"."pet_name", "pets"."status"
         FROM "owners" JOIN "pets" ON "owners"."id" = "pets"."owner_id"; """
+        # sends query using session
         cursor.execute(sql_select_query)
+        # cursor method determines response rows
+        # .fetchall gets all rows satisfiying query
         record = cursor.fetchall()
         print(record)
+        # jsonify the returned rows
         return jsonify(record)
 
     except (Exception, psycopg2.Error) as error :
+        # handles errors
         if(connection):
             print("Failed to GET from db", error)
 
@@ -44,7 +54,9 @@ def postPet():
    try:
        connection = mainConnection
        cursor = connection.cursor()
+        # replace template %s with record_to_insert 
        postgres_insert_query="""INSERT INTO "pets" ("owner_id", "pet_name", "breed", "color", "status") VALUES (%s,%s,%s,%s,%s) """
+       # record_to_insert must be interable
        record_to_insert = (request.json['owner_id'], request.json['pet_name'], request.json['breed'], request.json['color'], request.json['status'])
        cursor.execute(postgres_insert_query, record_to_insert)
        connection.commit()
@@ -61,6 +73,7 @@ def postPet():
           print("PostgreSQL cursor is closed")
           return 'finally'
 
+#  <int:pet_id> creates a variable (like params) and passes to the connected function def putPet
 @app.route('/pets/update/status/<int:pet_id>', methods=['PUT'])
 def putPet(pet_id):
     try:
