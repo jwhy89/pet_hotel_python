@@ -84,6 +84,28 @@ def putPet(pet_id):
             print("PostgreSQL cursor is closed")
             return 'finally'
 
+@app.route('/pets/delete/<int:pet_id>', methods=['DELETE'])
+def deletePet(pet_id):
+    try:
+        print(pet_id)
+        connection = mainConnection
+        cursor = connection.cursor()
+        postgres_insert_query=""" DELETE FROM "pets" WHERE "id" = %s """
+        record_to_insert = [pet_id]
+        cursor.execute(postgres_insert_query, record_to_insert)
+        connection.commit()
+        return 'recieved PUT'
+    except (Exception, psycopg2.Error) as error :
+        if(connection):
+            print("Failed to DELETE in db: ", error)
+            return 'failed'
+    finally:
+        #closing database connection.
+        if(connection):
+            cursor.close()
+            # connection.close()
+            print("PostgreSQL cursor is closed")
+            return 'finally'
 
 # ---- OWNER ROUTES -----
 @app.route("/owners", methods=["GET"])
