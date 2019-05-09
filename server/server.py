@@ -150,7 +150,7 @@ def addOwner():
         # closing database connection.
         if connection:
             cursor.close()
-            connection.close()
+            # connection.close()
             print("PostgreSQL connection is closed")
             return "finally"
 
