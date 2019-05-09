@@ -9,7 +9,7 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 # configures connection to database
-mainConnection = psycopg2.connect(user="walterbenson",
+mainConnection = psycopg2.connect(user="jarvisyang",
                                        host="localhost",
                                        port="5432",
                                        database="python_hotel")
@@ -24,7 +24,7 @@ def getPet():
         # cursor is configured to provide rows stored as dictionary
         cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         sql_select_query = """ SELECT "owners"."id" AS "owner_id", "owners"."first_name", "pets"."id" as "pet_id", "pets"."breed", "pets"."color", "pets"."pet_name", "pets"."status"
-        FROM "owners" JOIN "pets" ON "owners"."id" = "pets"."owner_id"; """
+        FROM "owners" JOIN "pets" ON "owners"."id" = "pets"."owner_id" ORDER BY "pets"."status" ASC; """
         # sends query using session
         cursor.execute(sql_select_query)
         # cursor method determines response rows
