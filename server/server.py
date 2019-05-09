@@ -155,26 +155,24 @@ def addOwner():
             return "finally"
 
 
-@app.route("/owners/delete/<int:ownerId>", methods=["DELETE"])
-def deleteData(ownerId):
+@app.route("/owners/delete/<int:owner_id>", methods=["DELETE"])
+def deleteOwner(owner_id):
     try:
+        print(owner_id)
         connection = mainConnection
         cursor = connection.cursor()
-        print("arguments: ", ownerId)
         # Update single record now
-        sql_delete_query = """ Delete from "owners" where id = %s """
-        cursor.execute(sql_delete_query, [ownerId])
+        sql_delete_query = """ DELETE FROM "owners" WHERE "id" = %s """
+        record_to_insert = [owner_id]
+        cursor.execute(sql_delete_query, record_to_insert)
         connection.commit()
-        count = cursor.rowcount
-        print(count, "Record deleted successfully ")
-        return "HTTP_201_Deleted"
+        return "recieved DELETE"
     except (Exception, psycopg2.Error) as error:
-        print("Error in Delete operation", error)
+        print("Error in Delete OWNER operation", error)
         return "failed"
     finally:
         # closing database connection.
         if connection:
             cursor.close()
-            connection.close()
             print("PostgreSQL connection is closed")
             return "Connection Closed"
