@@ -17,6 +17,9 @@ REST API using Flask, performs basic CRUD operations on two data tables in a Pos
 
 - [Python3](https://www.python.org/download/releases/3.0/)
 - [Pip3](https://pip.pypa.io/en/stable/quickstart/)
+- [PostgreSQL client like Postico](https://eggerapps.at/postico/)
+- [Node.js](https://nodejs.org/en/) (to get front-end packages)
+
 
 Should come with repo, if not install with pip3:
 - [Flask](http://flask.pocoo.org/docs/1.0/)
@@ -33,21 +36,21 @@ Steps to get the development environment running.
 2. `export FLASK_APP=server/server.py`
 3. `flask run`
 
-[React](https://github.com/wabens/react_pet_hotel/)
+To start front-end
+1. Download [React UI](https://github.com/wabens/react_pet_hotel/)
+2. `npm install`
+3. `npm start`
 
 
 ### Completed Features
 
-High level list of items completed.
-
-- [x] Feature a
-- [x] Feature b
+- [x] CRUD for two tables
+- [x] Database information displayed on DOM
 
 ### Next Steps
 
-Features that you would like to add at some point in the future.
-
-- [ ] Feature c
+- [ ] Break up routes with a router
+- [ ] More readable file structure
 
 
 ## Authors
