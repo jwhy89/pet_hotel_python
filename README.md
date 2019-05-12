@@ -33,7 +33,7 @@ Steps to get the development environment running.
 2. `export FLASK_APP=server/server.py`
 3. `flask run`
 
-Spin up front end at: [Front-end README](https://github.com/wabens/react_pet_hotel/edit/master/README.md)
+[React](https://github.com/wabens/react_pet_hotel/)
 
 
 ### Completed Features
