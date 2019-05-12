@@ -15,10 +15,12 @@ Made as part of a challenge to spin up a web server in an unfalmiliar language. 
 
 ### Prerequisites
 
-Link to software that is required before you attempt to start the app (e.g. node, mongo).
+- [Python3](https://www.python.org/download/releases/3.0/)
+- [Pip3](https://pip.pypa.io/en/stable/quickstart/)
 
+Should come with repo, if not install with pip3:
 - [Flask](http://flask.pocoo.org/docs/1.0/)
-- List other prerequisites here
+- [psycopg2](https://www.python.org/download/releases/3.0/)
 
 
 ### Installing
@@ -26,14 +28,11 @@ Link to software that is required before you attempt to start the app (e.g. node
 Steps to get the development environment running.
 
 1. Download this project.
+2. Connect to postgres
+3. Configure database stored in `mainConnection`
 2. `export FLASK_APP=server/server.py`
 3. `flask run`
 
-And so on...
-
-## Screen Shot
-
-Include one or two screen shots of your project here (optional). Remove if unused.
 
 ## Documentation
 
