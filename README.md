@@ -40,6 +40,7 @@ To start front-end
 1. Download [React UI](https://github.com/wabens/react_pet_hotel/)
 2. `npm install`
 3. `npm start`
+4. Navigate to http://localhost:3000/
 
 
 ### Completed Features
