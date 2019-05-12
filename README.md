@@ -13,8 +13,6 @@ Made as part of a challenge to spin up a web server in an unfalmiliar language. 
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
 ### Prerequisites
 
 Link to software that is required before you attempt to start the app (e.g. node, mongo).
@@ -28,8 +26,8 @@ Link to software that is required before you attempt to start the app (e.g. node
 Steps to get the development environment running.
 
 1. Download this project.
-2. `npm install`
-3. `npm start`
+2. `export FLASK_APP=server/server.py`
+3. `flask run`
 
 And so on...
 
