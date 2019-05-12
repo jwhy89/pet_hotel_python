@@ -2,6 +2,8 @@
 
 REST API using Flask, performs basic CRUD operations on two data tables in a PostreSQL db. It's paired with a React front end. Made as part of a team challenge to spin up a web server in an unfamiliar language.
 
+[React front-end](https://github.com/wabens/react_pet_hotel)
+
 ## Built With
 
 * Python3
@@ -30,6 +32,8 @@ Steps to get the development environment running.
 3. Configure database stored in `mainConnection`
 2. `export FLASK_APP=server/server.py`
 3. `flask run`
+
+Spin up front end at: [Front-end README](https://github.com/wabens/react_pet_hotel/edit/master/README.md)
 
 
 ### Completed Features
