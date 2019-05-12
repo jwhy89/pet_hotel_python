@@ -1,8 +1,6 @@
 # Python REST API --  Pet Hotel 
 
-REST API using Flask, performs basic CRUD operations on two data tables in a PostreSQL db. It's paired with a React front end.
-Made as part of a challenge to spin up a web server in an unfalmiliar language. Made in a group of 4 people.
-
+REST API using Flask, performs basic CRUD operations on two data tables in a PostreSQL db. It's paired with a React front end. Made as part of a team challenge to spin up a web server in an unfamiliar language.
 
 ## Built With
 
@@ -28,15 +26,11 @@ Should come with repo, if not install with pip3:
 Steps to get the development environment running.
 
 1. Download this project.
-2. Connect to postgres
+2. Run queries in `python_hotel.sql`
 3. Configure database stored in `mainConnection`
 2. `export FLASK_APP=server/server.py`
 3. `flask run`
 
-
-## Documentation
-
-Link to a read-only version of your scope document or other relevant documentation here (optional). Remove if unused.
 
 ### Completed Features
 
@@ -51,15 +45,9 @@ Features that you would like to add at some point in the future.
 
 - [ ] Feature c
 
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Authors
 
-* Name of author(s)
-
-
-## Acknowledgments
-
-* Hat tip to anyone who's code was used
+* [Bradley Hennen](https://github.com/BradleyHennen)
+* [Lili Bourgeois](https://github.com/lbourgeois90)
+* [Jarvis Yang](https://github.com/jwhy89)
