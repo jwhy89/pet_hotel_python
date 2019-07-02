@@ -2,7 +2,7 @@
 
 REST API using Flask, performs basic CRUD operations on two data tables in a PostreSQL db. It's paired with a React front end. Made as part of a team challenge to spin up a web server in an unfamiliar language.
 
-[React front-end](https://github.com/wabens/react_pet_hotel)
+[React front-end](https://github.com/jwhy89/react_pet_hotel)
 
 ## Built With
 
